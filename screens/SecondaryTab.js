@@ -4,7 +4,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 const SettingsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Settings Screen</Text>
+      <Text>App Screen</Text>
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
     </View>
   );
