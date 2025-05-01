@@ -21,7 +21,7 @@ const BottomTabNavigation = ({ navigation }) => {
                     left: 0,
                     right: 0,
                     elevation: 0,
-                    backgroundColor: '#fff',
+                    backgroundColor: '#FFe0e0',
                     borderTopWidth: 0,
                     height: 60,
                 },

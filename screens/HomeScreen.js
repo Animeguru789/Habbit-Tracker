@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+import  Youtube  from '../assets/youtube.png'; 
+import Spotify  from '../assets/spotify.png';
+import Tiktok  from '../assets/tiktok.png';
+import Snapchat  from '../assets/snapchat.png';
 
 const HomeScreen = () => {
   const data = [
     {
-      name: "Completed",
+      name: "entertainment",
       population: 70,
       color: "#4CAF50",
       legendFontColor: "#7F7F7F",
@@ -49,6 +53,15 @@ const HomeScreen = () => {
           <View style={styles.hollowCenter} />
         </View>
       </View>
+      <View style={[styles.viewBox, {top: 400,}]}>
+        <Text style={styles.titleText}>Most used apps in 30 days</Text>
+      </View>
+      <View style={[styles.viewBox, {top: 450,}]}>
+        <Image style={styles.bigApp} source={Youtube} />
+        <Image style={styles.bigApp} source={Spotify} />
+        <Image style={styles.bigApp} source={Tiktok} />
+        <Image style={styles.bigApp} source={Snapchat} />
+      </View>
     </View>
   );
 };
@@ -59,6 +72,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#CCE", // Matches the main background color
+  },
+  bigApp: {
+    height: 70, 
+    width: 70,
+    borderRadius: 10,
+    margin: 10,
   },
   titleText: {
     fontSize: 24,
