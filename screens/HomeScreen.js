@@ -1,10 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-import  Youtube  from '../assets/youtube.png'; 
-import Spotify  from '../assets/spotify.png';
-import Tiktok  from '../assets/tiktok.png';
-import Snapchat  from '../assets/snapchat.png';
+import images from '../assets/images'; // Adjust the path as necessary
 
 const HomeScreen = () => {
   const data = [
@@ -57,10 +54,18 @@ const HomeScreen = () => {
         <Text style={styles.titleText}>Most used apps in 30 days</Text>
       </View>
       <View style={[styles.viewBox, {top: 450,}]}>
-        <Image style={styles.bigApp} source={Youtube} />
-        <Image style={styles.bigApp} source={Spotify} />
-        <Image style={styles.bigApp} source={Tiktok} />
-        <Image style={styles.bigApp} source={Snapchat} />
+        <TouchableHighlight onPress={() => alert("YouTube clicked!")}>
+          <Image style={styles.appImage} source={images.youtube} />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => alert("Spotify clicked!")}>
+        <Image style={styles.appImage} source={images.spotify} />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => alert("TikTok clicked!")}>
+        <Image style={styles.appImage} source={images.tiktok} />
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => alert("Snapchat clicked!")}>
+        <Image style={styles.appImage} source={images.snapchat} />
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -73,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#CCE", // Matches the main background color
   },
-  bigApp: {
+  appImage: {
     height: 70, 
     width: 70,
     borderRadius: 10,
