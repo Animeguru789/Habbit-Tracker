@@ -58,10 +58,10 @@ const HomeScreen = () => {
           <Image style={styles.appImage} source={images.youtube} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => alert("Spotify clicked!")}>
-        <Image style={styles.appImage} source={images.spotify} />
+          <Image style={styles.appImage} source={images.spotify} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => alert("TikTok clicked!")}>
-        <Image style={styles.appImage} source={images.tiktok} />
+          <Image style={styles.appImage} source={images.tiktok} />
         </TouchableHighlight>
         <TouchableHighlight onPress={() => alert("Snapchat clicked!")}>
         <Image style={styles.appImage} source={images.snapchat} />
