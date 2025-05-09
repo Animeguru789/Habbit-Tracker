@@ -1,9 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight, } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-import images from '../assets/images'; // Adjust the path as necessary
+import { DATA } from './dataUtils'; // Import DATA from dataUtils.js
 
 const HomeScreen = () => {
+  // Select only the first 4 items from DATA
+  const topFourApps = DATA.slice(0, 4);
+
   const data = [
     {
       name: "entertainment",
@@ -50,22 +53,15 @@ const HomeScreen = () => {
           <View style={styles.hollowCenter} />
         </View>
       </View>
-      <View style={[styles.viewBox, {top: 400,}]}>
+      <View style={[styles.viewBox, { top: 400 }]}>
         <Text style={styles.titleText}>Most used apps in 30 days</Text>
       </View>
-      <View style={[styles.viewBox, {top: 450,}]}>
-        <TouchableHighlight onPress={() => alert("YouTube clicked!")}>
-          <Image style={styles.appImage} source={images.youtube} />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => alert("Spotify clicked!")}>
-          <Image style={styles.appImage} source={images.spotify} />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => alert("TikTok clicked!")}>
-          <Image style={styles.appImage} source={images.tiktok} />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => alert("Snapchat clicked!")}>
-        <Image style={styles.appImage} source={images.snapchat} />
-        </TouchableHighlight>
+      <View style={[styles.viewBox, { top: 450 }]}>
+        {topFourApps.map((app) => (
+          <TouchableHighlight key={app.id} onPress={() => alert(`${app.title} clicked!`)}>
+            <Image style={styles.appImage} source={app.image} />
+          </TouchableHighlight>
+        ))}
       </View>
     </View>
   );
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#CCE", // Matches the main background color
   },
   appImage: {
-    height: 70, 
+    height: 70,
     width: 70,
     borderRadius: 10,
     margin: 10,
