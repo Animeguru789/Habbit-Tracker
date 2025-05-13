@@ -1,13 +1,33 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Linking } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import { DATA, generateProgressValues, sortDataByProgress } from './dataUtils';
+import { DATA, sortDataByProgress } from './dataUtils';
+import { getProgressValues } from './progressStore';
 
 const AppScreen = ({ navigation }) => {
   const [selectedId, setSelectedId] = useState();
-  const [progressValues, setProgressValues] = useState(() => generateProgressValues());
+  const progressValues = getProgressValues(); // Use shared progress values
+  console.log("Progress Values:", progressValues);
 
   const sortedData = sortDataByProgress(DATA, progressValues);
+
+  const handlePress = async (item) => {
+    setSelectedId(item.id);
+
+    const appLink = item.appLink;
+    const webLink = item.link;
+
+    try {
+      const canOpenAppLink = await Linking.canOpenURL(appLink);
+      if (canOpenAppLink) {
+        await Linking.openURL(appLink); // Open the app link
+      } else {
+        await Linking.openURL(webLink); // Fallback to the web link
+      }
+    } catch (error) {
+      console.error("Error opening link:", error);
+    }
+  };
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? '#EEC' : '#CCE';
@@ -15,7 +35,7 @@ const AppScreen = ({ navigation }) => {
 
     return (
       <TouchableOpacity
-        onPress={() => setSelectedId(item.id)}
+        onPress={() => handlePress(item)}
         style={[styles.item, { backgroundColor }]}
       >
         <Image style={styles.appImage} source={item.image} />

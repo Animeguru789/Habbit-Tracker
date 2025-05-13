@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-import { DATA } from './dataUtils'; // Import DATA from dataUtils.js
+import { DATA, sortDataByProgress } from './dataUtils'; // Import necessary utilities
+import { getProgressValues } from './progressStore';
 
 const HomeScreen = () => {
-  // Select only the first 4 items from DATA
-  const topFourApps = DATA.slice(0, 4);
+  const progressValues = getProgressValues(); // Get shared progress values
+  const sortedData = sortDataByProgress(DATA, progressValues);
+  const topFourApps = sortedData.slice(0, 4);
+
+  console.log("Progress Values:", progressValues);
+  console.log("Top 4 Apps:", topFourApps.map((app) => ({ id: app.id, title: app.title, progress: progressValues[app.id] })));
 
   const data = [
     {
