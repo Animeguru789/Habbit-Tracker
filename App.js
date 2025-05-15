@@ -1,7 +1,18 @@
+import React, { useContext } from 'react';
 import AppNavigation from './AppNavigations/AppNavigation';
+import { ThemeProvider, ThemeContext } from './context/ThemeContext';
 
-export default function App() {
+const App = () => {
   return (
-    <AppNavigation />
+    <ThemeProvider>
+      <ThemedApp />
+    </ThemeProvider>
   );
-}
+};
+
+const ThemedApp = () => {
+  const { themeStyles } = useContext(ThemeContext); // Access themeStyles from ThemeContext
+  return <AppNavigation themeStyles={themeStyles} />;
+};
+
+export default App;

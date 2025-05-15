@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableHighlight } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { DATA, sortDataByProgress } from './dataUtils'; // Import necessary utilities
 import { getProgressValues } from './progressStore';
+import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 
 const HomeScreen = () => {
   const progressValues = getProgressValues(); // Get shared progress values
   const sortedData = sortDataByProgress(DATA, progressValues);
   const topFourApps = sortedData.slice(0, 4);
+
+  const { themeStyles } = useContext(ThemeContext); // Access themeStyles from ThemeContext
 
   console.log("Progress Values:", progressValues);
   console.log("Top 4 Apps:", topFourApps.map((app) => ({ id: app.id, title: app.title, progress: progressValues[app.id] })));
@@ -30,13 +33,16 @@ const HomeScreen = () => {
   ];
 
   return (
-    <View style={styles.container}>
-      <View style={styles.viewBox}>
-        <Text style={[styles.titleText, { marginLeft: 50 }]}>H</Text>
-        <Text style={styles.bigTitle}>APP</Text>
-        <Text style={[styles.titleText, { marginRight: 50 }]}>its</Text>
+    <View style={[styles.container, { backgroundColor: themeStyles.container.backgroundColor }]}>
+      <View style={[styles.viewBox, { backgroundColor: themeStyles.container.backgroundColor, left: 0, width: 255 }]}>
+        <Image source={require('../assets/icon.png')} style={{ height: 50, width: 50, left: 25, borderRadius: 10 }} />
+        <View style={[styles.viewBox, { left: '50%' }]}>
+          <Text style={[styles.titleText, { marginLeft: 50, color: themeStyles.text.color }]}>H</Text>
+          <Text style={[styles.bigTitle, { color: themeStyles.text.color }]}>APP</Text>
+          <Text style={[styles.titleText, { marginRight: 50, color: themeStyles.text.color }]}>its</Text>
+        </View>
       </View>
-      <View style={[styles.viewBox, { top: 100 }]}>
+      <View style={[styles.viewBox, { top: 100, backgroundColor: themeStyles.navigation.backgroundColor }]}>
         <View style={styles.chartWrapper}>
           {/* Pie Chart */}
           <PieChart
@@ -44,9 +50,9 @@ const HomeScreen = () => {
             width={Dimensions.get("window").width - 40} // Adjust width dynamically
             height={220}
             chartConfig={{
-              backgroundColor: "#1cc910",
-              backgroundGradientFrom: "#eff3ff",
-              backgroundGradientTo: "#efefef",
+              backgroundColor: themeStyles.container.backgroundColor,
+              backgroundGradientFrom: themeStyles.container.backgroundColor,
+              backgroundGradientTo: themeStyles.container.backgroundColor,
               color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             }}
             accessor={"population"}
@@ -55,13 +61,13 @@ const HomeScreen = () => {
             absolute // Show percentage values
           />
           {/* Hollow Center */}
-          <View style={styles.hollowCenter} />
+          <View style={[styles.hollowCenter, { backgroundColor: themeStyles.container.backgroundColor }]} />
         </View>
       </View>
-      <View style={[styles.viewBox, { top: 400 }]}>
-        <Text style={styles.titleText}>Most used apps in 30 days</Text>
+      <View style={[styles.viewBox, { top: 400, backgroundColor: themeStyles.navigation.backgroundColor }]}>
+        <Text style={[styles.titleText, { color: themeStyles.text.color }]}>Most used apps in 30 days</Text>
       </View>
-      <View style={[styles.viewBox, { top: 450 }]}>
+      <View style={[styles.viewBox, { top: 450, backgroundColor: themeStyles.navigation.backgroundColor }]}>
         {topFourApps.map((app) => (
           <TouchableHighlight key={app.id} onPress={() => alert(`${app.title} clicked!`)}>
             <Image style={styles.appImage} source={app.image} />
@@ -76,8 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#CCE", // Matches the main background color
   },
   appImage: {
     height: 70,
@@ -97,13 +101,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: "auto",
     width: "auto",
-    justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    backgroundColor: "#FFe0e0", // Background color of the view
     position: "absolute",
     top: 20,
     borderRadius: 10,
+    alignSelf: "center", 
   },
   chartContainer: {
     marginTop: 150,
@@ -120,7 +123,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 80, // Adjust size of the hollow center (smaller than the pie chart)
     height: 80,
-    backgroundColor: "#FFe0e0", // Matches the viewBox background color
     borderRadius: 40, // Makes it circular
     top: 70, // Center vertically (half of the PieChart height minus half of hollowCenter height)
     left: (Dimensions.get("window").width - 40) / 2 - 122, // Center horizontally (half of PieChart width minus half of hollowCenter width)

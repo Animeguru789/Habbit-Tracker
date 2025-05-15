@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, Linking } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { DATA, sortDataByProgress } from './dataUtils';
 import { getProgressValues } from './progressStore';
+import { ThemeContext } from '../context/ThemeContext';
 
 const AppScreen = ({ navigation }) => {
   const [selectedId, setSelectedId] = useState();
   const progressValues = getProgressValues(); // Use shared progress values
+  const { themeStyles } = useContext(ThemeContext); // Access themeStyles from ThemeContext
+
   console.log("Progress Values:", progressValues);
 
   const sortedData = sortDataByProgress(DATA, progressValues);
@@ -39,17 +42,17 @@ const AppScreen = ({ navigation }) => {
         style={[styles.item, { backgroundColor }]}
       >
         <Image style={styles.appImage} source={item.image} />
-        <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { width: progress * 2 }]} />
+        <View style={[styles.progressContainer, themeStyles.progressContainer]}>
+          <View style={[styles.progressBar, themeStyles.progressBar, { width: progress * 2 }]} />
         </View>
       </TouchableOpacity>
     );
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themeStyles.container]}>
       <View style={styles.viewBox}>
-        <Text style={styles.titleText}>
+        <Text style={themeStyles.text}>
           Welcome to the App Screen!{"\n"}
           This is where you can manage your apps.
         </Text>
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
   },
   titleText: {
     fontSize: 24,
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
   progressBar: {
     height: '100%',
     backgroundColor: '#4CAF50',
-    borderRadius: 10
+    borderRadius: 10,
   },
   scrollView: {
     marginTop: 150,
